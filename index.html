@@ -35,7 +35,7 @@ function sequenceBonus(){return Math.min(450,(retryCounts[world.id+':'+stage]||0
 function persist(){try{localStorage.setItem(key,JSON.stringify(save))}catch{}if(cloudUser)void syncCloud()}
 function stats(){$('xp').textContent='✨ '+save.xp+' XP';$('streak').textContent='🔥 '+save.streak+' streak';$('level').textContent='⭐ '+(Math.floor(save.xp/100)+1)+' Adventurer'}
 function show(id){['welcome','choose','play'].forEach(x=>$(x).classList.toggle('hide',x!==id))}
-function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function shuffle(a){const result=[...a];for(let i=result.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[result[i],result[j]]=[result[j],result[i]]}return result}
 function pick(n){return shuffle(icons).slice(0,n)}
 function choose(){clearTimeout(timer);token++;show('choose');$('worlds').replaceChildren();worlds.forEach(w=>{let b=document.createElement('button');b.className='world';let done=save.levels[w.id]||0;b.innerHTML='<span>'+w.icon+'</span><strong>'+w.name+'</strong><small>'+w.desc+' · '+done+'/12 cleared</small>';b.onclick=()=>{world=w;stage=Math.min(12,done+1);round()};$('worlds').append(b)})}
 function tile(v,click,cls=''){let b=document.createElement('button');b.className='tile '+cls;b.textContent=v;b.onclick=click;$('grid').append(b);return b}
